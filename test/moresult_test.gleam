@@ -1,13 +1,26 @@
+import gleam/float
+import gleam/int
+import gleam/list
+import gleam/order
+import gleam/string
 import gleeunit
+import moresult
 
 pub fn main() -> Nil {
   gleeunit.main()
 }
 
-// gleeunit test functions end in `_test`
-pub fn hello_world_test() {
-  let name = "Joe"
-  let greeting = "Hello, " <> name <> "!"
+pub fn is_ok_and_test() {
+  assert moresult.is_ok_and(Ok(2), fn(x) { x % 2 == 0 })
+  assert !moresult.is_ok_and(Ok("hello"), fn(x) { string.contains(x, "world") })
+  assert !moresult.is_ok_and(Error("error"), fn(x) {
+    list.all(x, fn(x) { float.compare(x, 0.3) == order.Eq })
+  })
+}
 
-  assert greeting == "Hello, Joe!"
+pub fn is_error_and_test() {
+  assert moresult.is_error_and(Error("nope"), fn(x) { string.contains(x, "no") })
+  assert moresult.is_error_and(Error(500), fn(x) { 500 == x })
+  assert !moresult.is_error_and(Error(400), fn(x) { 500 == x })
+  assert !moresult.is_error_and(Ok("hello"), fn(x) { list.any(x, int.is_even) })
 }
