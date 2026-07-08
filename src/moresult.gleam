@@ -31,3 +31,12 @@ pub fn error(result: Result(a, e)) -> Option(e) {
     Error(error) -> Some(error)
   }
 }
+
+pub fn map_or(result: Result(a, e), default: b, fun: fn(a) -> b) -> b {
+  case result {
+    Ok(value) -> {
+      fun(value)
+    }
+    Error(_) -> default
+  }
+}

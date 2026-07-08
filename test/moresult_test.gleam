@@ -35,3 +35,10 @@ pub fn error_test() {
   assert moresult.error(Ok("value")) == None
   assert moresult.error(Error(0.1)) == Some(0.1)
 }
+
+pub fn map_or_test() {
+  assert moresult.map_or(Ok(3), 33, fn(x) { x * 3 }) == 9
+  assert moresult.map_or(Ok("hello"), 42, fn(x) { string.length(x) }) == 5
+  assert moresult.map_or(Error(3.0), "i need this", fn(x) { int.to_string(x) })
+    == "i need this"
+}
