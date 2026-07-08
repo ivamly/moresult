@@ -61,3 +61,9 @@ pub fn add_test() {
   assert moresult.and(Error(0), Ok([])) == Error(0)
   assert moresult.and(Error(0), Error(1)) == Error(0)
 }
+
+pub fn lazy_unwrap_error() {
+  assert moresult.lazy_unwrap_error(Error("original"), fn() { "default" })
+    == "original"
+  assert moresult.lazy_unwrap_error(Ok(0), fn() { "default" }) == "default"
+}

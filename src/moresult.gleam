@@ -60,3 +60,10 @@ pub fn and(first: Result(a, e), second: Result(b, e)) -> Result(b, e) {
     Error(error) -> Error(error)
   }
 }
+
+pub fn lazy_unwrap_error(result: Result(a, e), default: fn() -> e) -> e {
+  case result {
+    Ok(_) -> default()
+    Error(error) -> error
+  }
+}
