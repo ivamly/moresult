@@ -53,3 +53,10 @@ pub fn map_or_else(
     Error(_) -> default()
   }
 }
+
+pub fn and(first: Result(a, e), second: Result(b, e)) -> Result(b, e) {
+  case first {
+    Ok(_) -> second
+    Error(error) -> Error(error)
+  }
+}

@@ -54,3 +54,10 @@ pub fn map_or_else_test() {
     })
     == "i need this"
 }
+
+pub fn add_test() {
+  assert moresult.and(Ok("first"), Ok(1)) == Ok(1)
+  assert moresult.and(Ok("first"), Error(-1)) == Error(-1)
+  assert moresult.and(Error(0), Ok([])) == Error(0)
+  assert moresult.and(Error(0), Error(1)) == Error(0)
+}
