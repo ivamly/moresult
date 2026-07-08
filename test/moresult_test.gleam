@@ -1,6 +1,7 @@
 import gleam/float
 import gleam/int
 import gleam/list
+import gleam/option.{None, Some}
 import gleam/order
 import gleam/string
 import gleeunit
@@ -23,4 +24,14 @@ pub fn is_error_and_test() {
   assert moresult.is_error_and(Error(500), fn(x) { 500 == x })
   assert !moresult.is_error_and(Error(400), fn(x) { 500 == x })
   assert !moresult.is_error_and(Ok("hello"), fn(x) { list.any(x, int.is_even) })
+}
+
+pub fn ok_test() {
+  assert moresult.ok(Ok(1)) == Some(1)
+  assert moresult.ok(Error("no")) == None
+}
+
+pub fn error_test() {
+  assert moresult.error(Ok("value")) == None
+  assert moresult.error(Error(0.1)) == Some(0.1)
 }
