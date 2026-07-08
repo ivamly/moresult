@@ -1,5 +1,11 @@
+//// A collection of ergonomic utility functions for working with Result types.
+////
+//// Inspired by Rust's Result module, this package provides helpful combinators
+//// and transformations to make error handling in Gleam more expressive and concise.
+
 import gleam/option.{type Option, None, Some}
 
+/// Returns true if the result is Ok and the value inside of it matches a predicate.
 pub fn is_ok_and(result: Result(a, e), predicate: fn(a) -> Bool) -> Bool {
   case result {
     Ok(value) -> {
@@ -9,6 +15,7 @@ pub fn is_ok_and(result: Result(a, e), predicate: fn(a) -> Bool) -> Bool {
   }
 }
 
+/// Returns true if the result is Error and the value inside of it matches a predicate.
 pub fn is_error_and(result: Result(a, e), predicate: fn(e) -> Bool) -> Bool {
   case result {
     Ok(_) -> False
@@ -18,6 +25,7 @@ pub fn is_error_and(result: Result(a, e), predicate: fn(e) -> Bool) -> Bool {
   }
 }
 
+/// Converts Result(a, e) into an Option(a) and converting the error to None, if any.
 pub fn ok(result: Result(a, e)) -> Option(a) {
   case result {
     Ok(value) -> Some(value)
@@ -25,6 +33,7 @@ pub fn ok(result: Result(a, e)) -> Option(a) {
   }
 }
 
+/// Converts Result(a, e) into an Option(e) and discarding the success value, if any.
 pub fn error(result: Result(a, e)) -> Option(e) {
   case result {
     Ok(_) -> None
@@ -32,6 +41,9 @@ pub fn error(result: Result(a, e)) -> Option(e) {
   }
 }
 
+/// Returns the provided default (if Error), or applies a function to the contained value (if Ok).
+/// Arguments passed to map_or are eagerly evaluated;
+/// if you are passing the result of a function call, it is recommended to use map_or_else, which is lazily evaluated.
 pub fn map_or(result: Result(a, e), default: b, fun: fn(a) -> b) -> b {
   case result {
     Ok(value) -> {
@@ -41,6 +53,8 @@ pub fn map_or(result: Result(a, e), default: b, fun: fn(a) -> b) -> b {
   }
 }
 
+/// Maps a Result(a, e) to a by applying fallback function default to a contained Error value,
+/// or function fun to a contained Ok value.
 pub fn map_or_else(
   result: Result(a, e),
   default: fn() -> b,
@@ -54,6 +68,7 @@ pub fn map_or_else(
   }
 }
 
+/// Returns second if the first is Ok, otherwise returns the Error value of first.
 pub fn and(first: Result(a, e), second: Result(b, e)) -> Result(b, e) {
   case first {
     Ok(_) -> second
@@ -61,6 +76,7 @@ pub fn and(first: Result(a, e), second: Result(b, e)) -> Result(b, e) {
   }
 }
 
+/// Extracts the Error value from a result, evaluating the default function if the result is an Error.
 pub fn lazy_unwrap_error(result: Result(a, e), default: fn() -> e) -> e {
   case result {
     Ok(_) -> default()
