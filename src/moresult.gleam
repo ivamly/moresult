@@ -40,3 +40,16 @@ pub fn map_or(result: Result(a, e), default: b, fun: fn(a) -> b) -> b {
     Error(_) -> default
   }
 }
+
+pub fn map_or_else(
+  result: Result(a, e),
+  default: fn() -> b,
+  fun: fn(a) -> b,
+) -> b {
+  case result {
+    Ok(value) -> {
+      fun(value)
+    }
+    Error(_) -> default()
+  }
+}

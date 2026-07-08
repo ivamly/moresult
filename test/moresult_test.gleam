@@ -42,3 +42,15 @@ pub fn map_or_test() {
   assert moresult.map_or(Error(3.0), "i need this", fn(x) { int.to_string(x) })
     == "i need this"
 }
+
+pub fn map_or_else_test() {
+  assert moresult.map_or_else(Ok(3), fn() { 33 }, fn(x) { x * 3 }) == 9
+  assert moresult.map_or_else(Ok("hello"), fn() { 42 }, fn(x) {
+      string.length(x)
+    })
+    == 5
+  assert moresult.map_or_else(Error(3.0), fn() { "i need this" }, fn(x) {
+      int.to_string(x)
+    })
+    == "i need this"
+}
