@@ -79,3 +79,8 @@ pub fn either_test() {
   assert moresult.either(Ok("ok"), string.length, int.absolute_value) == 2
   assert moresult.either(Error(-1), string.length, int.absolute_value) == 1
 }
+
+pub fn from_either_test() {
+  assert moresult.from_either(Ok(3)) == 3
+  assert moresult.from_either(Error("error")) == "error"
+}

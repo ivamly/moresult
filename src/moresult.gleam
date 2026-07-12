@@ -106,3 +106,10 @@ pub fn either(
     Error(error) -> on_error(error)
   }
 }
+
+pub fn from_either(result: Result(a, a)) -> a {
+  case result {
+    Ok(value) -> value
+    Error(value) -> value
+  }
+}
