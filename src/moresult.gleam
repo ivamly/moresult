@@ -83,3 +83,15 @@ pub fn lazy_unwrap_error(result: Result(a, e), default: fn() -> e) -> e {
     Error(error) -> error
   }
 }
+
+/// Case analysis for the Result type. If the value is Ok, apply the first function; if it is Error, apply the second function.
+pub fn either(
+  result: Result(a, e),
+  on_ok: fn(a) -> b,
+  on_error: fn(e) -> b,
+) -> b {
+  case result {
+    Ok(value) -> on_ok(value)
+    Error(error) -> on_error(error)
+  }
+}
