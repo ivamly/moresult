@@ -67,3 +67,8 @@ pub fn lazy_unwrap_error() {
     == "original"
   assert moresult.lazy_unwrap_error(Ok(0), fn() { "default" }) == "default"
 }
+
+pub fn either_test() {
+  assert moresult.either(Ok("ok"), string.length, int.absolute_value) == 2
+  assert moresult.either(Error(-1), string.length, int.absolute_value) == 1
+}
