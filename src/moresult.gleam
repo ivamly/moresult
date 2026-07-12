@@ -3,6 +3,7 @@
 //// Inspired by Rust's Result module, this package provides helpful combinators
 //// and transformations to make error handling in Gleam more expressive and concise.
 
+import gleam/list
 import gleam/option.{type Option, None, Some}
 
 /// Returns true if the result is Ok and the value inside of it matches a predicate.
@@ -82,6 +83,16 @@ pub fn lazy_unwrap_error(result: Result(a, e), default: fn() -> e) -> e {
     Ok(_) -> default()
     Error(error) -> error
   }
+}
+
+/// Extracts from a list of Result all Error elements. All the Error elements extracts in order.
+pub fn errors(results: List(Result(a, e))) -> List(e) {
+  list.filter_map(results, fn(result) {
+    case result {
+      Error(e) -> Ok(e)
+      Ok(value) -> Error(value)
+    }
+  })
 }
 
 /// Case analysis for the Result type. If the value is Ok, apply the first function; if it is Error, apply the second function.

@@ -68,6 +68,13 @@ pub fn lazy_unwrap_error() {
   assert moresult.lazy_unwrap_error(Ok(0), fn() { "default" }) == "default"
 }
 
+pub fn errors_test() {
+  assert moresult.errors([Ok(1), Error("foo"), Ok(3), Error("bar")])
+    == ["foo", "bar"]
+  assert moresult.errors([Error(404)]) == [404]
+  assert moresult.errors([Ok("yes"), Ok("yes-yes")]) == []
+}
+
 pub fn either_test() {
   assert moresult.either(Ok("ok"), string.length, int.absolute_value) == 2
   assert moresult.either(Error(-1), string.length, int.absolute_value) == 1
