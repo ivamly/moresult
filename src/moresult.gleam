@@ -113,3 +113,12 @@ pub fn from_either(result: Result(a, a)) -> a {
     Error(value) -> value
   }
 }
+
+// Calls a function with contained value if Ok. Returns the original result.
+pub fn inspect(result: Result(a, e), func: fn(a) -> Nil) {
+  case result {
+    Ok(value) -> func(value)
+    _ -> Nil
+  }
+  result
+}
