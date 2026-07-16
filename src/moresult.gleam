@@ -122,3 +122,12 @@ pub fn inspect(result: Result(a, e), func: fn(a) -> Nil) {
   }
   result
 }
+
+// Calls a function with contained value if Error. Returns the original result.
+pub fn inspect_err(result: Result(a, e), func: fn(e) -> Nil) {
+  case result {
+    Ok(_) -> Nil
+    Error(err) -> func(err)
+  }
+  result
+}
