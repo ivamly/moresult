@@ -1,7 +1,7 @@
 //// A collection of ergonomic utility functions for working with Result types.
 ////
-//// Inspired by Rust's Result module, this package provides helpful combinators
-//// and transformations to make error handling in Gleam more expressive and concise.
+//// This package provides helpful combinators and transformations
+//// to make error handling in Gleam more expressive and concise.
 
 import gleam/list
 import gleam/option.{type Option, None, Some}
@@ -43,8 +43,8 @@ pub fn error(result: Result(a, e)) -> Option(e) {
 }
 
 /// Returns the provided default (if Error), or applies a function to the contained value (if Ok).
-/// Arguments passed to map_or are eagerly evaluated;
-/// if you are passing the result of a function call, it is recommended to use map_or_else, which is lazily evaluated.
+/// Arguments passed to map_or are eagerly evaluated; if you are passing the result of a function call,
+/// it is recommended to use map_or_else, which is lazily evaluated.
 pub fn map_or(result: Result(a, e), default: b, fun: fn(a) -> b) -> b {
   case result {
     Ok(value) -> {
@@ -95,7 +95,8 @@ pub fn errors(results: List(Result(a, e))) -> List(e) {
   })
 }
 
-/// Case analysis for the Result type. If the value is Ok, apply the first function; if it is Error, apply the second function.
+/// Case analysis for the Result type. If the value is Ok, apply the first function;
+/// if it is Error, apply the second function.
 pub fn either(
   result: Result(a, e),
   on_ok: fn(a) -> b,
@@ -107,6 +108,7 @@ pub fn either(
   }
 }
 
+/// Pull the value out of an Result where both alternatives have the same type.
 pub fn from_either(result: Result(a, a)) -> a {
   case result {
     Ok(value) -> value
@@ -114,7 +116,7 @@ pub fn from_either(result: Result(a, a)) -> a {
   }
 }
 
-// Calls a function with contained value if Ok. Returns the original result.
+/// Calls a function with contained value if Ok. Returns the original result.
 pub fn inspect(result: Result(a, e), func: fn(a) -> Nil) {
   case result {
     Ok(value) -> func(value)
